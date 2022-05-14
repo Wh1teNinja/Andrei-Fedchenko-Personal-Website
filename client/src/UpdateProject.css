@@ -1,0 +1,350 @@
+.update-project-pop-up {
+  background-color: #0000006f;
+
+  cursor: pointer;
+}
+
+.update-project-form {
+  position: relative;
+  display: grid;
+  grid-template-columns: 70% 30%;
+  grid-template-rows: repeat(4, 40px) calc(60% - 200px) 40% 40px;
+  grid-template-areas: 
+    "title title"
+    "images yt-url"
+    "images github-url"
+    "images url"
+    "images description"
+    "images tags"
+    "images buttons";
+
+  width: 80%;
+  height: 90%;
+
+  background-color: white;
+  border-radius: 10px;
+
+  cursor: default;
+}
+
+.dark-theme .update-project-form {
+  background-color: #2c2c2c;
+}
+
+.update-project-form input[type=text], 
+.update-project-form textarea {
+  margin: 2px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  border-radius: 15px;
+  border: 1px solid rgb(210, 210, 210);
+  outline: none;
+  font-size: 1em;
+  background: none;
+}
+
+.dark-theme .update-project-form input[type=text], 
+.dark-theme .update-project-form textarea {
+  border: 1px solid rgb(23, 23, 23);
+  color: white;
+}
+
+.update-project-title-input {
+  grid-area: title;
+}
+
+.update-project-images {
+  grid-area: images;
+  
+  display: flex;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  flex-direction: column;
+  overflow: hidden;
+
+  margin: 2px;
+
+  border-radius: 15px;
+  border: 1px solid rgb(210, 210, 210);
+}
+
+.dark-theme .update-project-images {
+  border: 1px solid rgb(23, 23, 23);
+}
+
+.images-list-editor {
+  box-sizing: border-box;
+  width: 100%;
+  height: 150px;
+
+  padding: 0 calc(50% - 110px);
+
+  overflow-x: scroll;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  display: flex;
+  position: absolute;
+  top: 0;
+  align-items: center;
+}
+
+.images-list-editor::-webkit-scrollbar {
+  display: none;
+}
+
+.images-list {
+  display: flex;
+  align-items: center;
+
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.images-list-project-image-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  min-width: 200px;
+  width: 200px;
+  height: calc(0.5625 * 200px);
+
+  margin: 0 10px;
+
+  background-color: white;
+}
+
+.dark-theme .images-list-project-image-card {
+  background-color: #2c2c2c;
+}
+
+.images-list-project-image-card-highlighted {
+  margin: 0 10px;
+  width: 200px;
+  transform: scale(1.1);
+}
+
+.images-list-project-image {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.add-project-screenshot-card {
+  cursor: pointer;
+}
+
+.images-list-project-image-card:hover .image-card-delete-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-card-delete-button {
+  display: none;
+
+  position: absolute;
+  top: 5px;
+  right: 10px;
+
+  width: 40px;
+  height: 40px;
+
+  background: #f8f8f8;
+
+  border: none;
+  border-radius: 50%;
+
+  opacity: 0.7;
+
+  cursor: pointer;
+}
+
+.delete-button-icon {
+  width: 25px;
+  height: 25px;
+}
+
+.add-project-screenshot-button {
+  width: 32px;
+}
+
+.slider-buttons {
+  top: 0;
+  position: absolute;
+  width: 100%;
+  height: 150px;
+}
+
+.slider-button {
+  display: flex;
+  align-items: center;
+
+  border: none;
+  height: 100%;
+  position: absolute;
+  z-index: 10;
+  width: 40px;
+  font-size: 3em;
+
+  top: 0;
+
+  cursor: pointer;
+
+  opacity: 0.6;
+
+  background-color: white;
+}
+
+.dark-theme .slider-button {
+  background-color: #2c2c2c;
+}
+
+.slider-button:hover {
+  opacity: 1;
+}
+
+.slider-button-left {
+  left: 0;
+}
+
+.slider-button-right {
+  right: 0;
+}
+
+.slider-button > svg {
+  fill: rgb(33, 33, 33);
+  height: 30px;
+  margin: auto;
+}
+
+.dark-theme .slider-button > svg {
+  fill: white;
+  height: 30px;
+}
+
+.update-project-video-url-input {
+  grid-area: yt-url;
+}
+
+.update-project-github-url-input {
+  grid-area: github-url;
+}
+
+.update-project-url-input {
+  grid-area: url;
+}
+
+.update-project-description-input {
+  grid-area: description;
+
+  resize: none;
+}
+
+.update-project-tags-picker {
+  grid-area: tags;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+
+  position: relative;
+  font-size: 0.7em;
+}
+
+.update-project-tag-picker {
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+  border: none;
+  
+  width: 50px;
+  height: 50px;
+
+  background: none;
+  cursor: pointer;
+}
+
+.tag-picker-off {
+  opacity: 0.3;
+}
+
+.update-project-buttons {
+  grid-area: buttons;
+
+  display: flex;
+  justify-content: flex-end;
+
+  padding-right: 5%;
+}
+
+.update-project-button {
+  cursor: pointer;
+  border: none;
+  padding: 5px 10px;
+  margin: 5px;
+}
+
+.update-project-delete-button {
+  background-color: #ff4242;
+  color: white;
+}
+
+.update-project-update-button {
+  background-color: #ff4408;
+  color: white;
+}
+
+
+/* Adaptive css */
+
+@media screen and (max-width: 900px) {
+  .update-project-form {
+    grid-template-columns: 60% 40%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .update-project-form {
+    padding: 5px;
+    overflow-y: scroll;
+
+    grid-template-columns: 100%;
+    grid-template-rows: 40px 300px repeat(3, 40px) 100px 200px 40px;
+    grid-template-areas: 
+      "title"
+      "images"
+      "yt-url"
+      "github-url"
+      "url"
+      "description"
+      "tags"
+      "buttons";
+  }
+
+  .images-list-editor {
+    top: 50%;
+    height: 150px;
+  }
+
+  .update-project-images {
+    justify-content: flex-start;
+  }
+
+  .slider-buttons {
+    height: 100%;
+  }
+
+  .slider-button:hover {
+    opacity: 0.5;
+  }
+}
+
+@media screen and (max-width: 600px) {
+}
