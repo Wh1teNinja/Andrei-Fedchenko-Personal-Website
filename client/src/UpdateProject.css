@@ -256,6 +256,8 @@
 
   position: relative;
   font-size: 0.7em;
+
+  padding: 10px;
 }
 
 .update-project-tag-picker {

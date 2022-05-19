@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useQuery } from "@apollo/client";
 
 import { ReactComponent as Plus } from "./images/icons/Plus.svg";
@@ -7,6 +7,7 @@ import { ReactComponent as Url } from "./images/icons/url.svg";
 import { ReactComponent as Reset } from "./images/icons/reset.svg";
 
 import TagIcon from "./TagIcon";
+import Project from "./Project";
 
 import { getTags, getProjects } from "./queries/queries";
 
@@ -21,7 +22,7 @@ const testData = {
       videoUrl: null,
       githubUrl: null,
       projectUrl: null,
-      images: ["d5b34f12adb36a9f8637fbd92187ddc2.jpg"],
+      images: ["d5b34f12adb36a9f8637fbd92187ddc2.jpg","d5b34f12adb36a9f8637fbd92187ddc2.jpg"],
       tags: [
         {
           __typename: "Tag",
@@ -72,7 +73,7 @@ const testData = {
   ],
 };
 
-function renderProjects(projects, filters) {
+function renderProjects(projects, filters, setOpenProject) {
   let filteredProjects = projects.filter((project) => {
     let result =
       (filters.other.includes("Github") && project.githubUrl) ||
@@ -92,6 +93,7 @@ function renderProjects(projects, filters) {
         key={project.id}
         className='project-card card'
         style={display ? {} : { display: "none" }}
+        onClick={() => setOpenProject(project)}
       >
         <div className='project-card-background'></div>
         <div className='project-card-special-tags'>
@@ -154,13 +156,13 @@ function Portfolio() {
     including: true,
   });
 
-  let resetFilters = () => {
+  let resetFilters = useCallback(() => {
     setFilters({
-      tags: [],
+      tags: tags,
       other: ["Github", "ProjectUrl"],
       including: true,
     });
-  };
+  }, [tags]);
 
   let switchFilterInclusion = () => {
     setFilters((filters) => {
@@ -219,6 +221,9 @@ function Portfolio() {
     }));
   }, [tags]);
 
+  const [openProject, setOpenProject] = useState(null);
+
+
   return (
     <main className='main-page-wrapper'>
       <h1 className='portfolio-title'>
@@ -239,15 +244,6 @@ function Portfolio() {
           >
             <h4 className='filters-label'>Filters:</h4>
             <div className='tags-list'>
-              {renderTags(tags, filters, switchTag)}
-              {renderTags(tags, filters, switchTag)}
-              {renderTags(tags, filters, switchTag)}
-              {renderTags(tags, filters, switchTag)}
-              {renderTags(tags, filters, switchTag)}
-              {renderTags(tags, filters, switchTag)}
-              {renderTags(tags, filters, switchTag)}
-              {renderTags(tags, filters, switchTag)}
-              {renderTags(tags, filters, switchTag)}
               {renderTags(tags, filters, switchTag)}
             </div>
             <div className='special-tags-list tags-list'>
@@ -297,9 +293,10 @@ function Portfolio() {
           >
             Filters
           </button>
-          {renderProjects(projects, filters)}
+          {renderProjects(projects, filters, setOpenProject)}
         </div>
       </div>
+      {openProject ? <Project data={openProject} closePopUp={() => setOpenProject(null)}/> : <></>}
     </main>
   );
 }
