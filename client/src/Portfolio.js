@@ -10,6 +10,7 @@ import TagIcon from "./TagIcon";
 import Project from "./Project";
 
 import { getTags, getProjects } from "./queries/queries";
+import Loading from "./Loading";
 
 /* const testData = {
   projects: [
@@ -126,7 +127,6 @@ function renderProjects(projects, filters, setOpenProject) {
 }
 
 function renderTags(tags, filters, switchTag) {
-  console.log(tags, filters.tags);
   return tags.map((tag) => (
     <li
       key={tag.id}
@@ -223,7 +223,6 @@ function Portfolio() {
 
   const [openProject, setOpenProject] = useState(null);
 
-
   return (
     <main className='main-page-wrapper'>
       <h1 className='portfolio-title'>
@@ -293,7 +292,7 @@ function Portfolio() {
           >
             Filters
           </button>
-          {renderProjects(projects, filters, setOpenProject)}
+          {projects.length ? renderProjects(projects, filters, setOpenProject) : <Loading/>}
         </div>
       </div>
       {openProject ? <Project data={openProject} closePopUp={() => setOpenProject(null)}/> : <></>}
