@@ -120,6 +120,12 @@ const deleteProject = gql`
   }
 `;
 
+const login = gql`
+  mutation ($login: String!, $password: String!) {
+    login(login: $login, password: $password)
+  }
+`;
+
 export {
   getTag,
   getTags,
@@ -129,4 +135,5 @@ export {
   addProject,
   updateProject,
   deleteProject,
+  login
 };
