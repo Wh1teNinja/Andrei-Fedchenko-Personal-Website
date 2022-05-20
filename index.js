@@ -92,7 +92,8 @@ const upload = multer({ storage });
 app.use(express.static(path.resolve(__dirname, "./client/build")));
 
 const verifyJWT = (req, res, next) => {
-  const token = req.headers.authorization;
+  const token = req.headers.authorization.split(" ")[1];
+  console.log(token);
   try {
     jwt.verify(token, process.env.JWT_SECRET);
     next();
