@@ -149,6 +149,11 @@ function Admin() {
     e.preventDefault();
 
     removeTag({
+      context: {
+        header: {
+          Authorization: "Bearer " + localStorage.getItem("jwtToken"),
+        },
+      },
       variables: {
         id,
       },
