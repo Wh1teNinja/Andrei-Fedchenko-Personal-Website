@@ -220,8 +220,6 @@ function UpdateProject({ setError, initProjectData, hidePopUp, refetchProjects }
     }
   };
 
-  console.log(currentImageIndex);
-
   return (
     <div
       onClick={hidePopUpHandler}

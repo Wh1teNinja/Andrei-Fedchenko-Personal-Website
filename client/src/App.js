@@ -25,9 +25,9 @@ function App() {
   let [darkThemeOn, setDarkThemeOn] = useState(false);
   let [showMenu, setShowMenu] = useState(false);
 
-  let [jwtToken, setJwtToken] = useState(localStorage.getItem("jwtToken") || null);
+  let [jwtToken, setJwtToken] = useState(localStorage.getItem("jwtToken") === "null" ? null : localStorage.getItem("jwtToken"));
 
-  useEffect(() => {;
+  useEffect(() => {
     localStorage.setItem("jwtToken", jwtToken);
   }, [jwtToken]);
 
