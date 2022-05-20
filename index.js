@@ -91,6 +91,16 @@ const storage = new GridFsStorage({
 const upload = multer({ storage });
 app.use(express.static(path.resolve(__dirname, "./client/build")));
 
+const verifyJWT = (req, res, next) => {
+  const token = req.headers.authorization;
+  try {
+    jwt.verify(token, process.env.JWT_SECRET);
+    next();
+  } catch (error) {
+    res.status(400).send({ message: "Authentication failed" });
+  }
+};
+
 app.get("/api/image/:name", (req, res) => {
   gfs.find({ filename: req.params.name }).toArray((err, files) => {
     if (!files[0] || files.length === 0) {
@@ -104,7 +114,7 @@ app.get("/api/image/:name", (req, res) => {
   });
 });
 
-app.post("/api/image", upload.single("image"), (req, res) => {
+app.post("/api/image", verifyJWT, upload.single("image"), (req, res) => {
   res.json({ image: req.file });
 });
 
