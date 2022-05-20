@@ -6,6 +6,8 @@ const path = require("path");
 const cors = require("cors");
 const multer = require("multer");
 const crypto = require("crypto");
+const { expressjwt: jwt } = require("express-jwt");
+const jwt_jsonwebtoken = require("jsonwebtoken");
 const { GridFsStorage } = require("multer-gridfs-storage");
 
 const app = express();
@@ -14,6 +16,15 @@ const PORT = process.env.PORT || 4200;
 const dbUrl = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@cluster0.ngvk4.mongodb.net/myWebsite?retryWrites=true&w=majority`;
 
 require("dotenv").config();
+
+const auth = jwt({
+  secret: process.env.JWT_SECRET,
+  algorithms: ["HS256"],
+  credentialsRequired: false,
+});
+
+app.use(cors());
+app.use(auth);
 
 mongoose
   .connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -24,12 +35,26 @@ mongoose
     console.log("Connection to the database failed: ", err);
   });
 
+const getUser = (token) => {
+  if (token) {
+    try {
+      token = token.split(" ")[1];
+      return jwt_jsonwebtoken.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+      throw new Error("Invalid authentication token");
+    }
+  }
+};
+
 app.use(
   "/graphql",
-  graphqlHTTP(() => {
+  graphqlHTTP((req) => {
     return {
       schema,
       graphiql: process.env.NODE_ENV === "development",
+      context: {
+        user: getUser(req.headers.authorization),
+      },
     };
   })
 );
@@ -64,13 +89,6 @@ const storage = new GridFsStorage({
 });
 
 const upload = multer({ storage });
-
-app.use(
-  cors({
-    origin: "*",
-  })
-);
-
 app.use(express.static(path.resolve(__dirname, "./client/build")));
 
 app.get("/api/image/:name", (req, res) => {
