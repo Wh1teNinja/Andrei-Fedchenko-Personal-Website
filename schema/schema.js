@@ -1,7 +1,10 @@
 const graphql = require("graphql");
+const jsonwebtoken = require("jsonwebtoken");
+const bcrypt = require("bcryptjs")
 
 const Project = require("../models/Project");
 const Tag = require("../models/Tag");
+const User = require("../models/User");
 
 require("dotenv").config();
 
@@ -83,6 +86,31 @@ const RootQuery = new GraphQLObjectType({
 const Mutations = new GraphQLObjectType({
   name: "Mutations",
   fields: {
+    login: {
+      type: GraphQLString,
+      args: {
+        login: { type: new GraphQLNonNull(GraphQLString)},
+        password: { type: new GraphQLNonNull(GraphQLString)}
+      },
+      async resolve(_parent, args) {
+        const user = await User.findOne({login: args.login});
+
+        if (!user) {
+          throw new Error('User not found');
+        }
+
+        const valid = await bcrypt.compare(args.password, user.password);
+      
+        if (!valid) {
+          throw new Error("Password incorrect");
+        } 
+
+        return jsonwebtoken.sign(
+          { id: user.id },
+          process.env.JWT_SECRET
+        );
+      }
+    },
     addProject: {
       type: ProjectType,
       args: {
