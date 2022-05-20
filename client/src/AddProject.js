@@ -21,7 +21,7 @@ function AddProject({ setError, refetchProjects }) {
       })
       .catch((err) => {
         console.log(err);
-        setError("Something went wrong, try again later.");
+        setError(["Something went wrong, try again later."]);
       });
   };
 

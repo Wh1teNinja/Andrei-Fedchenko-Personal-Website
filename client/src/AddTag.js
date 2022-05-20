@@ -23,6 +23,9 @@ function AddTag({ setError, error, refetchTags, apiUrl }) {
       method: "POST",
       mode: "cors",
       body: formData,
+      headers: {
+        'Authorization': "Bearer " + localStorage.getItem("jwtToken") 
+      }
     })
       .then((res) => res.json())
       .then((res) => {
@@ -52,7 +55,7 @@ function AddTag({ setError, error, refetchTags, apiUrl }) {
         }
       })
       .catch((err) => {
-        setError("Something went wrong, try again later");
+        setError(["Something went wrong, try again later"]);
         console.log(err);
       });
   };

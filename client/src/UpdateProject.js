@@ -160,6 +160,9 @@ function UpdateProject({ setError, initProjectData, hidePopUp, refetchProjects, 
             method: "POST",
             mode: "cors",
             body: formData,
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("jwtToken") 
+            }
           }
         )
           .then((res) => res.json())
