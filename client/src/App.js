@@ -27,8 +27,7 @@ function App() {
 
   let [jwtToken, setJwtToken] = useState(localStorage.getItem("jwtToken") || null);
 
-  useEffect(() => {
-    console.log(jwtToken);
+  useEffect(() => {;
     localStorage.setItem("jwtToken", jwtToken);
   }, [jwtToken]);
 

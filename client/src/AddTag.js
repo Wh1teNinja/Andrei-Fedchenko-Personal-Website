@@ -29,7 +29,7 @@ function AddTag({ setError, error, refetchTags }) {
         if (res.image.filename) {
           postTag({
             context: {
-              header: {
+              headers: {
                 Authorization: "Bearer " + localStorage.getItem("jwtToken"),
               },
             },

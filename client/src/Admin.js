@@ -150,7 +150,7 @@ function Admin() {
 
     removeTag({
       context: {
-        header: {
+        headers: {
           Authorization: "Bearer " + localStorage.getItem("jwtToken"),
         },
       },

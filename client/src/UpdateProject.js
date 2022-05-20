@@ -128,7 +128,7 @@ function UpdateProject({ setError, initProjectData, hidePopUp, refetchProjects }
     
     removeProject({
       context: {
-        header: {
+        headers: {
           Authorization: "Bearer " + localStorage.getItem("jwtToken"),
         },
       },
@@ -181,7 +181,7 @@ function UpdateProject({ setError, initProjectData, hidePopUp, refetchProjects }
     Promise.all(uploadImages).then((newImages) => {
       editProject({
         context: {
-          header: {
+          headers: {
             Authorization: "Bearer " + localStorage.getItem("jwtToken"),
           },
         },
