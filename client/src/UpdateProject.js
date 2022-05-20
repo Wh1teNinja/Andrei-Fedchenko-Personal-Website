@@ -15,7 +15,7 @@ import Loading from "./Loading";
 
 import SubmitFileInput from "./SubmitFileInput";
 
-function UpdateProject({ setError, initProjectData, hidePopUp, refetchProjects }) {
+function UpdateProject({ setError, initProjectData, hidePopUp, refetchProjects, apiUrl }) {
   const { loading, data: allTagsData } = useQuery(getTags);
 
   const allTags = loading || !allTagsData ? [] : allTagsData.getTags;
@@ -155,7 +155,7 @@ function UpdateProject({ setError, initProjectData, hidePopUp, refetchProjects }
         formData.append("image", image);
 
         return fetch(
-          "http://localhost:" + (process.env.PORT || 4200) + "/api/image",
+          apiUrl + "/api/image",
           {
             method: "POST",
             mode: "cors",
@@ -294,8 +294,7 @@ function UpdateProject({ setError, initProjectData, hidePopUp, refetchProjects }
                                 src={
                                   typeof image === "object"
                                     ? URL.createObjectURL(image)
-                                    : "http://localhost:" +
-                                      (process.env.PORT || 4200) +
+                                    : apiUrl +
                                       "/api/image/" +
                                       image
                                 }
@@ -361,8 +360,7 @@ function UpdateProject({ setError, initProjectData, hidePopUp, refetchProjects }
                 ? URL.createObjectURL(
                     images[Math.min(currentImageIndex, images.length - 1)]
                   )
-                : "http://localhost:" +
-                  (process.env.PORT || 4200) +
+                : apiUrl +
                   "/api/image/" +
                   images[Math.min(currentImageIndex, images.length - 1)]
             }
@@ -416,7 +414,7 @@ function UpdateProject({ setError, initProjectData, hidePopUp, refetchProjects }
                       : "update-project-tag-picker tag-picker-off"
                   }
                 >
-                  <TagIcon tag={tag} tagFullIcon={true} />
+                  <TagIcon tag={tag} tagFullIcon={true} apiUrl={apiUrl}/>
                 </button>
               );
             })

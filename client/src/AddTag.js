@@ -6,7 +6,7 @@ import { ReactComponent as Plus } from "./images/icons/Plus.svg";
 
 import { addTag } from "./queries/queries";
 
-function AddTag({ setError, error, refetchTags }) {
+function AddTag({ setError, error, refetchTags, apiUrl }) {
   const [addingTag, setAddingTag] = useState(false);
   const [tagImage, setTagImage] = useState(null);
   const [tagName, setTagName] = useState("");
@@ -19,7 +19,7 @@ function AddTag({ setError, error, refetchTags }) {
 
     formData.append("image", tagImage);
 
-    fetch("http://localhost:" + (process.env.PORT || 4200) + "/api/image", {
+    fetch(apiUrl + "/api/image", {
       method: "POST",
       mode: "cors",
       body: formData,

@@ -74,7 +74,7 @@ import Loading from "./Loading";
   ],
 }; */
 
-function renderProjects(projects, filters, setOpenProject) {
+function renderProjects(projects, filters, setOpenProject, apiUrl) {
   let filteredProjects = projects.filter((project) => {
     let result =
       (filters.other.includes("Github") && project.githubUrl) ||
@@ -105,7 +105,7 @@ function renderProjects(projects, filters, setOpenProject) {
           <img
             src={
               project.images
-                ? "http://localhost:4200/api/image/" + project.images[0]
+                ? apiUrl + "/api/image/" + project.images[0]
                 : ""
             }
             alt='project screenshot'
@@ -117,7 +117,7 @@ function renderProjects(projects, filters, setOpenProject) {
         <ul className='project-card-tags-list'>
           {project.tags.map((tag) => (
             <li key={tag.id}>
-              <TagIcon tag={tag} />
+              <TagIcon tag={tag} apiUrl={apiUrl}/>
             </li>
           ))}
         </ul>
@@ -126,19 +126,19 @@ function renderProjects(projects, filters, setOpenProject) {
   });
 }
 
-function renderTags(tags, filters, switchTag) {
+function renderTags(tags, filters, switchTag, apiUrl) {
   return tags.map((tag) => (
     <li
       key={tag.id}
       onClick={() => switchTag(tag)}
       style={filters.tags.find((t) => t.id === tag.id) ? {} : { opacity: 0.5 }}
     >
-      <TagIcon tag={tag} />
+      <TagIcon tag={tag} apiUrl={apiUrl} />
     </li>
   ));
 }
 
-function Portfolio() {
+function Portfolio({apiUrl}) {
   const { loading: loadingProjects, data: projectsData } = useQuery(getProjects);
 
   const projects =
@@ -243,7 +243,7 @@ function Portfolio() {
           >
             <h4 className='filters-label'>Filters:</h4>
             <div className='tags-list'>
-              {renderTags(tags, filters, switchTag)}
+              {renderTags(tags, filters, switchTag, apiUrl)}
             </div>
             <div className='special-tags-list tags-list'>
               <li
@@ -292,10 +292,10 @@ function Portfolio() {
           >
             Filters
           </button>
-          {projects.length ? renderProjects(projects, filters, setOpenProject) : <Loading/>}
+          {projects.length ? renderProjects(projects, filters, setOpenProject, apiUrl) : <Loading/>}
         </div>
       </div>
-      {openProject ? <Project data={openProject} closePopUp={() => setOpenProject(null)}/> : <></>}
+      {openProject ? <Project data={openProject} closePopUp={() => setOpenProject(null)} apiUrl={apiUrl}/> : <></>}
     </main>
   );
 }

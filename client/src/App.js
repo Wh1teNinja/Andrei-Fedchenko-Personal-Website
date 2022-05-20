@@ -13,8 +13,10 @@ import { ReactComponent as MenuButton } from "./images/icons/menu-button.svg";
 import { ReactComponent as Sun } from "./images/icons/sun.svg";
 import { ReactComponent as Moon } from "./images/icons/moon.svg";
 
+const apiUrl = "http://localhost:4200";
+
 const client = new ApolloClient({
-  uri: "http://localhost:" + (process.env.PORT || 4200) + "/graphql",
+  uri: apiUrl + "/graphql",
   cache: new InMemoryCache(),
   fetchOption: {
     mode: "cors",
@@ -25,7 +27,11 @@ function App() {
   let [darkThemeOn, setDarkThemeOn] = useState(false);
   let [showMenu, setShowMenu] = useState(false);
 
-  let [jwtToken, setJwtToken] = useState(localStorage.getItem("jwtToken") === "null" ? null : localStorage.getItem("jwtToken"));
+  let [jwtToken, setJwtToken] = useState(
+    localStorage.getItem("jwtToken") === "null"
+      ? null
+      : localStorage.getItem("jwtToken")
+  );
 
   useEffect(() => {
     localStorage.setItem("jwtToken", jwtToken);
@@ -71,11 +77,20 @@ function App() {
           </nav>
         </header>
         <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/portfolio' element={<Portfolio />} />
-          <Route path='/admin' element={jwtToken ? <Admin /> : <Login setJwtToken={setJwtToken}/>} />
+          <Route path='/' element={<Home apiUrl={apiUrl} />} />
+          <Route path='/portfolio' element={<Portfolio apiUrl={apiUrl} />} />
+          <Route
+            path='/admin'
+            element={
+              jwtToken ? (
+                <Admin apiUrl={apiUrl} />
+              ) : (
+                <Login apiUrl={apiUrl} setJwtToken={setJwtToken} />
+              )
+            }
+          />
         </Routes>
-        <hr/>
+        <hr />
         <footer className='App-footer'>
           <h3>Andrei Fedchenko</h3>
           <p>Copyright © 2022 Andrei Fedchenko. All right reserved.</p>

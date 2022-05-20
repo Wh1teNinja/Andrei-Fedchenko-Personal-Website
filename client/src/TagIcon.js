@@ -1,13 +1,12 @@
 import { ReactSVG } from "react-svg";
 
-function TagIcon({ tag, tagFullIcon = false }) {
+function TagIcon({ tag, tagFullIcon = false, apiUrl }) {
   return (
     <div className={"wrapper tag-icon-wrapper " + (tagFullIcon ? "h-fit-content" : "")}>
       {tag.image.endsWith(".svg") ? (
         <ReactSVG
           src={
-            "http://localhost:" +
-            (process.env.PORT || 4200) +
+            apiUrl +
             "/api/image/" +
             tag.image
           }
@@ -18,8 +17,7 @@ function TagIcon({ tag, tagFullIcon = false }) {
       ) : (
         <img
           src={
-            "http://localhost:" +
-            (process.env.PORT || 4200) +
+            apiUrl +
             "/api/image/" +
             tag.image
           }

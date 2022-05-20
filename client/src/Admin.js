@@ -60,10 +60,10 @@ import Loading from "./Loading";
   ],
 }; */
 
-function renderTags(tags, handleTagDelete) {
+function renderTags(tags, handleTagDelete, apiUrl) {
   return tags.map((tag, index) => (
     <div key={index} className='card tag-card'>
-      <TagIcon tag={tag} tagFullIcon={true} />
+      <TagIcon tag={tag} tagFullIcon={true} apiUrl={apiUrl}/>
       <span className='tag-card-label'>{tag.name}</span>
       <div className='tag-card-buttons'>
         <button
@@ -77,7 +77,7 @@ function renderTags(tags, handleTagDelete) {
   ));
 }
 
-function renderProjects(projects, setEditedProject) {
+function renderProjects(projects, setEditedProject, apiUrl) {
   return projects.map((project) => {
     return (
       <li
@@ -94,7 +94,7 @@ function renderProjects(projects, setEditedProject) {
           <img
             src={
               project.images
-                ? "http://localhost:4200/api/image/" + project.images[0]
+                ? apiUrl + "/api/image/" + project.images[0]
                 : ""
             }
             alt='project screenshot'
@@ -106,7 +106,7 @@ function renderProjects(projects, setEditedProject) {
         <ul className='project-card-tags-list'>
           {project.tags.map((tag) => (
             <li key={tag.id}>
-              <TagIcon tag={tag} />
+              <TagIcon tag={tag} apiUrl={apiUrl}/>
             </li>
           ))}
         </ul>
@@ -115,7 +115,7 @@ function renderProjects(projects, setEditedProject) {
   });
 }
 
-function Admin() {
+function Admin({apiUrl}) {
   const [error, setError] = useState([]);
   const [errorTimeout, setErrorTimeout] = useState(0);
   const errorMessage = useRef(null);
@@ -191,7 +191,7 @@ function Admin() {
               <Loading />
             ) : (
               <>
-                {renderProjects(projects, setEditedProject)}
+                {renderProjects(projects, setEditedProject, apiUrl)}
                 <AddProject setError={setError} refetchProjects={refetchProjects} />
               </>
             )}
@@ -208,11 +208,12 @@ function Admin() {
               <Loading />
             ) : (
               <>
-                {renderTags(tags, handleTagDelete)}
+                {renderTags(tags, handleTagDelete, apiUrl)}
                 <AddTag
                   setError={setError}
                   error={error}
                   refetchTags={refetchTags}
+                  apiUrl={apiUrl}
                 />
               </>
             )}
@@ -229,6 +230,7 @@ function Admin() {
           hidePopUp={() => setEditedProject(null)}
           initProjectData={editedProject}
           refetchProjects={refetchProjects}
+          apiUrl={apiUrl}
         />
       ) : (
         <></>

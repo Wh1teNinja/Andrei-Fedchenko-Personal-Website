@@ -7,7 +7,7 @@ import { ReactComponent as Cross } from "./images/icons/Cross.svg";
 import { ReactComponent as ArrowLeft } from "./images/icons/Arrow-left.svg";
 import { ReactComponent as ArrowRight } from "./images/icons/Arrow-right.svg";
 
-function Project({ data, closePopUp }) {
+function Project({ data, closePopUp, apiUrl }) {
   const popUpWrapper = useRef(null);
 
   const hidePopUpHandler = (e) => {
@@ -40,7 +40,7 @@ function Project({ data, closePopUp }) {
         <div className='project-images-slider'>
           <img
             className='project-image'
-            src={"http://localhost:4200/api/image/" + data.images[imageIndex]}
+            src={apiUrl + "/api/image/" + data.images[imageIndex]}
             alt={"project screenshot " + 1}
           />
           <div className='project-images-slider-buttons'>
@@ -90,7 +90,7 @@ function Project({ data, closePopUp }) {
         <ul className='project-tags'>
           {data.tags.map((tag) => (
             <li key={tag.id}>
-              <TagIcon tag={tag} />
+              <TagIcon tag={tag} apiUrl={apiUrl}/>
             </li>
           ))}
         </ul>
