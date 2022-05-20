@@ -251,8 +251,10 @@
   grid-area: tags;
 
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: auto;
+  grid-template-columns: repeat(auto-fill, 50px);
+  grid-template-rows: repeat(auto-fill, 50px);
+  row-gap: 3px;
+  column-gap: 3px;
 
   position: relative;
   font-size: 0.7em;

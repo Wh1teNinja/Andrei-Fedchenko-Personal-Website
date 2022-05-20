@@ -28,6 +28,11 @@ function AddTag({ setError, error, refetchTags }) {
       .then((res) => {
         if (res.image.filename) {
           postTag({
+            context: {
+              headers: {
+                Authorization: "Bearer " + localStorage.getItem("jwtToken"),
+              },
+            },
             variables: {
               name: tagName,
               type: "framework",
@@ -101,7 +106,7 @@ function AddTag({ setError, error, refetchTags }) {
   ) : (
     <div className='card tag-card tag-card-editor'>
       <button onClick={handleAddNewTag} className='add-new-tag-button'>
-        <Plus/>
+        <Plus />
       </button>
     </div>
   );

@@ -10,8 +10,9 @@ import TagIcon from "./TagIcon";
 import Project from "./Project";
 
 import { getTags, getProjects } from "./queries/queries";
+import Loading from "./Loading";
 
-const testData = {
+/* const testData = {
   projects: [
     {
       __typename: "Project",
@@ -71,7 +72,7 @@ const testData = {
       image: "b2c98eb50b2384b9d540878a017789b3.svg",
     },
   ],
-};
+}; */
 
 function renderProjects(projects, filters, setOpenProject) {
   let filteredProjects = projects.filter((project) => {
@@ -126,7 +127,6 @@ function renderProjects(projects, filters, setOpenProject) {
 }
 
 function renderTags(tags, filters, switchTag) {
-  console.log(tags, filters.tags);
   return tags.map((tag) => (
     <li
       key={tag.id}
@@ -142,11 +142,11 @@ function Portfolio() {
   const { loading: loadingProjects, data: projectsData } = useQuery(getProjects);
 
   const projects =
-    loadingProjects || !projectsData ? testData.projects : projectsData.getProjects;
+    loadingProjects || !projectsData ? [] : projectsData.getProjects;
 
   const { loading: loadingTags, data: tagsData } = useQuery(getTags);
 
-  const tags = loadingTags || !tagsData ? testData.tags : tagsData.getTags;
+  const tags = loadingTags || !tagsData ? [] : tagsData.getTags;
 
   let [openFilters, setOpenFilters] = useState(null);
 
@@ -158,11 +158,11 @@ function Portfolio() {
 
   let resetFilters = useCallback(() => {
     setFilters({
-      tags: tags,
+      tags: tagsData?.getTags || [],
       other: ["Github", "ProjectUrl"],
       including: true,
     });
-  }, [tags]);
+  }, [tagsData?.getTags]);
 
   let switchFilterInclusion = () => {
     setFilters((filters) => {
@@ -215,14 +215,13 @@ function Portfolio() {
 
   useEffect(() => {
     setFilters((filters) => ({
-      tags: tags,
+      tags: tagsData?.getTags || [],
       other: filters.other,
       including: filters.including,
     }));
-  }, [tags]);
+  }, [tagsData?.getTags]);
 
   const [openProject, setOpenProject] = useState(null);
-
 
   return (
     <main className='main-page-wrapper'>
@@ -293,7 +292,7 @@ function Portfolio() {
           >
             Filters
           </button>
-          {renderProjects(projects, filters, setOpenProject)}
+          {projects.length ? renderProjects(projects, filters, setOpenProject) : <Loading/>}
         </div>
       </div>
       {openProject ? <Project data={openProject} closePopUp={() => setOpenProject(null)}/> : <></>}

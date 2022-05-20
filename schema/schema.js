@@ -1,7 +1,10 @@
 const graphql = require("graphql");
+const jsonwebtoken = require("jsonwebtoken");
+const bcrypt = require("bcryptjs")
 
 const Project = require("../models/Project");
 const Tag = require("../models/Tag");
+const User = require("../models/User");
 
 require("dotenv").config();
 
@@ -83,6 +86,31 @@ const RootQuery = new GraphQLObjectType({
 const Mutations = new GraphQLObjectType({
   name: "Mutations",
   fields: {
+    login: {
+      type: GraphQLString,
+      args: {
+        login: { type: new GraphQLNonNull(GraphQLString)},
+        password: { type: new GraphQLNonNull(GraphQLString)}
+      },
+      async resolve(_parent, args) {
+        const user = await User.findOne({login: args.login});
+
+        if (!user) {
+          throw new Error('User not found');
+        }
+
+        const valid = await bcrypt.compare(args.password, user.password);
+      
+        if (!valid) {
+          throw new Error("Password incorrect");
+        } 
+
+        return jsonwebtoken.sign(
+          { id: user.id },
+          process.env.JWT_SECRET
+        );
+      }
+    },
     addProject: {
       type: ProjectType,
       args: {
@@ -94,7 +122,9 @@ const Mutations = new GraphQLObjectType({
         projectUrl: { type: GraphQLString },
         images: { type: new GraphQLList(GraphQLString) },
       },
-      resolve(_parent, args) {
+      resolve(_parent, args, req) {
+        if (!req.user) throw new Error('Not an admin');
+
         const project = new Project(
           {
             title: args.title,
@@ -123,7 +153,9 @@ const Mutations = new GraphQLObjectType({
         projectUrl: { type: GraphQLString },
         images: { type: new GraphQLList(GraphQLString) },
       },
-      resolve(_parent, args) {
+      resolve(_parent, args, req) {
+        if (!req.user) throw new Error('Not an admin');
+
         return Project.findByIdAndUpdate(
           args.id,
           {
@@ -144,7 +176,9 @@ const Mutations = new GraphQLObjectType({
       args: {
         id: { type: new GraphQLNonNull(GraphQLID) },
       },
-      resolve(_parent, args) {
+      resolve(_parent, args, req) {
+        if (!req.user) throw new Error('Not an admin');
+
         return Project.findByIdAndDelete(args.id);
       },
     },
@@ -155,7 +189,9 @@ const Mutations = new GraphQLObjectType({
         type: { type: new GraphQLNonNull(GraphQLString) },
         image: { type: new GraphQLNonNull(GraphQLString) },
       },
-      resolve(_parent, args) {
+      resolve(_parent, args, req) {
+        if (!req.user) throw new Error('Not an admin');
+
         const tag = new Tag(
           {
             name: args.name,
@@ -176,7 +212,9 @@ const Mutations = new GraphQLObjectType({
         type: { type: GraphQLString },
         image: { type: GraphQLString },
       },
-      resolve(_parent, args) {
+      resolve(_parent, args, req) {
+        if (!req.user) throw new Error('Not an admin');
+
         return Tag.findByIdAndUpdate(args.id, {
           name: args.name,
           type: args.type,
@@ -189,7 +227,9 @@ const Mutations = new GraphQLObjectType({
       args: {
         id: { type: new GraphQLNonNull(GraphQLID) },
       },
-      resolve(_parent, args) {
+      resolve(_parent, args, req) {
+        if (!req.user) throw new Error('Not an admin');
+
         return Tag.findByIdAndDelete(args.id);
       },
     },

@@ -12,7 +12,7 @@ import TagIcon from "./TagIcon";
 import UpdateProject from "./UpdateProject";
 import Loading from "./Loading";
 
-const testData = {
+/* const testData = {
   projects: [
     {
       __typename: "Project",
@@ -58,7 +58,7 @@ const testData = {
       image: "b2c98eb50b2384b9d540878a017789b3.svg",
     },
   ],
-};
+}; */
 
 function renderTags(tags, handleTagDelete) {
   return tags.map((tag, index) => (
@@ -141,7 +141,7 @@ function Admin() {
     refetch: refetchTags,
   } = useQuery(getTags);
 
-  const tags = loadingTags || !tagsData ? testData.tags : tagsData.getTags;
+  const tags = loadingTags || !tagsData ? [] : tagsData.getTags;
 
   const [removeTag] = useMutation(deleteTag);
 
@@ -149,6 +149,11 @@ function Admin() {
     e.preventDefault();
 
     removeTag({
+      context: {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("jwtToken"),
+        },
+      },
       variables: {
         id,
       },
@@ -168,11 +173,9 @@ function Admin() {
   } = useQuery(getProjects);
 
   const projects =
-    loadingProjects || !projectsData ? testData.projects : projectsData.getProjects;
+    loadingProjects || !projectsData ? [] : projectsData.getProjects;
 
   const [editedProject, setEditedProject] = useState(null);
-
-  console.log(projects, tags);
 
   return (
     <main className='main-page-wrapper'>

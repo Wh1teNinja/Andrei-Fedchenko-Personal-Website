@@ -1,11 +1,12 @@
 import "./App.css";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 import Home from "./Home";
 import Portfolio from "./Portfolio";
+import Login from "./Login";
 import Admin from "./Admin";
 
 import { ReactComponent as MenuButton } from "./images/icons/menu-button.svg";
@@ -23,6 +24,13 @@ const client = new ApolloClient({
 function App() {
   let [darkThemeOn, setDarkThemeOn] = useState(false);
   let [showMenu, setShowMenu] = useState(false);
+
+  let [jwtToken, setJwtToken] = useState(localStorage.getItem("jwtToken") || null);
+
+  useEffect(() => {;
+    localStorage.setItem("jwtToken", jwtToken);
+  }, [jwtToken]);
+
   return (
     <ApolloProvider client={client}>
       <div className={"App " + (darkThemeOn ? "dark-theme" : "")}>
@@ -65,7 +73,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Home />} />
           <Route path='/portfolio' element={<Portfolio />} />
-          <Route path='/admin' element={<Admin />} />
+          <Route path='/admin' element={jwtToken ? <Admin /> : <Login setJwtToken={setJwtToken}/>} />
         </Routes>
         <hr/>
         <footer className='App-footer'>
