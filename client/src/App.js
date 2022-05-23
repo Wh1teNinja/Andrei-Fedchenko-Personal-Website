@@ -24,7 +24,9 @@ const client = new ApolloClient({
 });
 
 function App() {
-  let [darkThemeOn, setDarkThemeOn] = useState(false);
+  let [darkThemeOn, setDarkThemeOn] = useState(
+    localStorage.getItem("darkTheme") === "true"
+  );
   let [showMenu, setShowMenu] = useState(false);
 
   let [jwtToken, setJwtToken] = useState(
@@ -36,6 +38,10 @@ function App() {
   useEffect(() => {
     localStorage.setItem("jwtToken", jwtToken);
   }, [jwtToken]);
+
+  useEffect(() => {
+    localStorage.setItem("darkTheme", darkThemeOn);
+  }, [darkThemeOn]);
 
   return (
     <ApolloProvider client={client}>
