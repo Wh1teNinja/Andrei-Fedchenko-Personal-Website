@@ -78,10 +78,10 @@ function Project({ data, closePopUp, apiUrl }) {
         </span>
         <span
           className={
-            "project-data-line " + (data.url ? "" : "project-data-line-no-data")
+            "project-data-line " + (data.projectUrl ? "" : "project-data-line-no-data")
           }
         >
-          <label>Url: </label> <a href={data.url}>{data.url}</a>
+          <label>Url: </label> <a href={data.projectUrl}>{data.projectUrl}</a>
         </span>
         <div className='project-data-line project-description'>
           <label>Description: </label>
