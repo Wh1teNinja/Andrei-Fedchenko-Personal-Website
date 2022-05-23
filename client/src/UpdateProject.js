@@ -74,7 +74,10 @@ function UpdateProject({ setError, initProjectData, hidePopUp, refetchProjects, 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handleImageOnClick = (index) => {
-    setCurrentImageIndex(index);
+    setCurrentImageIndex((i) => {
+      projectImagesList.current.scrollLeft = index * 220;
+      return index;
+    });
   };
 
   const handleCurrentImageOnScroll = (e) => {
