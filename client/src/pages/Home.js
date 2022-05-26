@@ -1,7 +1,7 @@
-import myPhoto from "./images/me-without-background.png";
+import myPhoto from "../images/me-without-background.png";
 
-import { ReactComponent as Arrow } from "./images/icons/arrow.svg";
-import { ReactComponent as Star } from "./images/icons/star.svg";
+import { ReactComponent as Arrow } from "../images/icons/arrow.svg";
+import { ReactComponent as Star } from "../images/icons/star.svg";
 
 const skills = [
   { name: "JavaScript", rank: 5 },

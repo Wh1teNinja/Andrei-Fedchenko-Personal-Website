@@ -1,3 +1,4 @@
+// Component to automatically generate svg or img of tag icon
 import { ReactSVG } from "react-svg";
 
 function TagIcon({ tag, tagFullIcon = false, apiUrl }) {

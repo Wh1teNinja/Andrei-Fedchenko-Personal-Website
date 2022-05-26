@@ -1,16 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
 import { useQuery } from "@apollo/client";
 
-import { ReactComponent as Plus } from "./images/icons/Plus.svg";
-import { ReactComponent as Github } from "./images/icons/github.svg";
-import { ReactComponent as Url } from "./images/icons/url.svg";
-import { ReactComponent as Reset } from "./images/icons/reset.svg";
+import { ReactComponent as Plus } from "../images/icons/Plus.svg";
+import { ReactComponent as Github } from "../images/icons/github.svg";
+import { ReactComponent as Url } from "../images/icons/url.svg";
+import { ReactComponent as Reset } from "../images/icons/reset.svg";
 
-import TagIcon from "./TagIcon";
-import Project from "./Project";
+import TagIcon from "../components/TagIcon";
+import Project from "../components/Project";
 
-import { getTags, getProjects } from "./queries/queries";
-import Loading from "./Loading";
+import { getTags, getProjects } from "../queries/queries";
+import Loading from "../components/Loading";
 
 /* const testData = {
   projects: [

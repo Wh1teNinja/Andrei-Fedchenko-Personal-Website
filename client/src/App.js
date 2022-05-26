@@ -1,13 +1,13 @@
-import "./App.css";
+import "./styles/App.css";
 
 import { useState, useEffect } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
-import Home from "./Home";
-import Portfolio from "./Portfolio";
-import Login from "./Login";
-import Admin from "./Admin";
+import Home from "./pages/Home";
+import Portfolio from "./pages/Portfolio";
+import Login from "./pages/Login";
+import Admin from "./pages/Admin";
 
 import { ReactComponent as MenuButton } from "./images/icons/menu-button.svg";
 import { ReactComponent as Sun } from "./images/icons/sun.svg";
@@ -27,6 +27,8 @@ function App() {
   let [darkThemeOn, setDarkThemeOn] = useState(
     localStorage.getItem("darkTheme") === "true"
   );
+
+  // menu state for mobile devices(open or closed) 
   let [showMenu, setShowMenu] = useState(false);
 
   let [jwtToken, setJwtToken] = useState(
@@ -35,10 +37,12 @@ function App() {
       : localStorage.getItem("jwtToken")
   );
 
+  // saves jwt token
   useEffect(() => {
     localStorage.setItem("jwtToken", jwtToken);
   }, [jwtToken]);
 
+  // saves dark theme status 
   useEffect(() => {
     localStorage.setItem("darkTheme", darkThemeOn);
   }, [darkThemeOn]);

@@ -2,13 +2,13 @@ import { useReducer, useRef, useEffect, useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
-import { getTags, updateProject, deleteProject } from "./queries/queries";
+import { getTags, updateProject, deleteProject } from "../queries/queries";
 
-import "./UpdateProject.css";
+import "../styles/UpdateProject.css";
 
-import TrashCan from "./images/icons/Trash-can.svg";
-import { ReactComponent as ArrowLeft } from "./images/icons/Arrow-left.svg";
-import { ReactComponent as ArrowRight } from "./images/icons/Arrow-right.svg";
+import TrashCan from "../images/icons/Trash-can.svg";
+import { ReactComponent as ArrowLeft } from "../images/icons/Arrow-left.svg";
+import { ReactComponent as ArrowRight } from "../images/icons/Arrow-right.svg";
 
 import TagIcon from "./TagIcon";
 import Loading from "./Loading";

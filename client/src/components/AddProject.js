@@ -1,9 +1,9 @@
 import { useMutation } from "@apollo/client";
-import "./AddProject.css";
+import "../styles/AddProject.css";
 
-import {ReactComponent as Plus } from "./images/icons/Plus.svg";
+import {ReactComponent as Plus } from "../images/icons/Plus.svg";
 
-import { addProject } from "./queries/queries";
+import { addProject } from "../queries/queries";
 
 function AddProject({ setError, refetchProjects }) {
   const [postProject] = useMutation(addProject);

@@ -1,16 +1,16 @@
 import { useState, useRef, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 
-import TrashCan from "./images/icons/Trash-can.svg";
-import { ReactComponent as Github } from "./images/icons/github.svg";
-import { ReactComponent as Url } from "./images/icons/url.svg";
+import TrashCan from "../images/icons/Trash-can.svg";
+import { ReactComponent as Github } from "../images/icons/github.svg";
+import { ReactComponent as Url } from "../images/icons/url.svg";
 
-import { getTags, getProjects, deleteTag } from "./queries/queries";
-import AddTag from "./AddTag";
-import AddProject from "./AddProject";
-import TagIcon from "./TagIcon";
-import UpdateProject from "./UpdateProject";
-import Loading from "./Loading";
+import { getTags, getProjects, deleteTag } from "../queries/queries";
+import AddTag from "../components/AddTag";
+import AddProject from "../components/AddProject";
+import TagIcon from "../components/TagIcon";
+import UpdateProject from "../components/UpdateProject";
+import Loading from "../components/Loading";
 
 /* const testData = {
   projects: [

@@ -2,9 +2,9 @@ import SubmitFileInput from "./SubmitFileInput";
 import { useState, useEffect, useRef } from "react";
 import { useMutation } from "@apollo/client";
 
-import { ReactComponent as Plus } from "./images/icons/Plus.svg";
+import { ReactComponent as Plus } from "../images/icons/Plus.svg";
 
-import { addTag } from "./queries/queries";
+import { addTag } from "../queries/queries";
 
 function AddTag({ setError, error, refetchTags, apiUrl }) {
   const [addingTag, setAddingTag] = useState(false);

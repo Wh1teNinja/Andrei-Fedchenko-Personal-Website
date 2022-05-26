@@ -1,11 +1,11 @@
-import "./Project.css";
+import "../styles/Project.css";
 
 import { useState, useRef } from "react";
 import TagIcon from "./TagIcon";
 
-import { ReactComponent as Cross } from "./images/icons/Cross.svg";
-import { ReactComponent as ArrowLeft } from "./images/icons/Arrow-left.svg";
-import { ReactComponent as ArrowRight } from "./images/icons/Arrow-right.svg";
+import { ReactComponent as Cross } from "../images/icons/Cross.svg";
+import { ReactComponent as ArrowLeft } from "../images/icons/Arrow-left.svg";
+import { ReactComponent as ArrowRight } from "../images/icons/Arrow-right.svg";
 
 function Project({ data, closePopUp, apiUrl }) {
   const popUpWrapper = useRef(null);

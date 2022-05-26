@@ -1,5 +1,5 @@
-import { ReactComponent as Upload } from "./images/icons/Upload.svg";
-import "./SubmitFileInput.css";
+import { ReactComponent as Upload } from "../images/icons/Upload.svg";
+import "../styles/SubmitFileInput.css";
 import { useRef, useEffect, useState } from "react";
 
 function SubmitFileInput({

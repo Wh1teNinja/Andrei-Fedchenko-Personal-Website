@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useState } from "react";
-import "./Loading.css";
-import LoadingIcon from "./images/icons/Loading.svg";
+import "../styles/Loading.css";
+import LoadingIcon from "../images/icons/Loading.svg";
 
 function reducer(state) {
   switch(state.length) {

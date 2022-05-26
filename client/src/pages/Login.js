@@ -1,9 +1,9 @@
-import "./Login.css";
+import "../styles/Login.css";
 
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 
-import { login as loginMutation } from "./queries/queries";
+import { login as loginMutation } from "../queries/queries";
 
 function Login({ setJwtToken }) {
   const [login, setLogin] = useState("");
