@@ -17,6 +17,8 @@ const dbUrl = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@c
 
 require("dotenv").config();
 
+
+// jwt configuration
 const auth = jwt({
   secret: process.env.JWT_SECRET,
   algorithms: ["HS256"],
@@ -26,6 +28,7 @@ const auth = jwt({
 app.use(cors());
 app.use(auth);
 
+// connect to the db
 mongoose
   .connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -35,6 +38,7 @@ mongoose
     console.log("Connection to the database failed: ", err);
   });
 
+// middleware to verify jwt and get user(used with graphql)
 const getUser = (token) => {
   if (token) {
     try {
@@ -46,6 +50,18 @@ const getUser = (token) => {
   }
 };
 
+// middleware to verify jwt(used with routes)
+const verifyJWT = (req, res, next) => {
+  const token = req.headers.authorization.split(" ")[1];
+  try {
+    jwt_jsonwebtoken.verify(token, process.env.JWT_SECRET);
+    next();
+  } catch (error) {
+    res.status(400).send({ message: "Authentication failed" });
+  }
+};
+
+// graphql set up
 app.use(
   "/graphql",
   graphqlHTTP((req) => {
@@ -59,6 +75,7 @@ app.use(
   })
 );
 
+//--------------< GridFS Configuration >----------
 let gfs;
 
 connection = mongoose.connection;
@@ -87,20 +104,13 @@ const storage = new GridFsStorage({
     });
   },
 });
+// End of GridFS configuration
+//---------------------------------------------
 
 const upload = multer({ storage });
 app.use(express.static(path.resolve(__dirname, "./client/build")));
 
-const verifyJWT = (req, res, next) => {
-  const token = req.headers.authorization.split(" ")[1];
-  try {
-    jwt_jsonwebtoken.verify(token, process.env.JWT_SECRET);
-    next();
-  } catch (error) {
-    res.status(400).send({ message: "Authentication failed" });
-  }
-};
-
+// get image route
 app.get("/api/image/:name", (req, res) => {
   gfs.find({ filename: req.params.name }).toArray((err, files) => {
     if (!files[0] || files.length === 0) {
@@ -114,6 +124,7 @@ app.get("/api/image/:name", (req, res) => {
   });
 });
 
+// upload image route
 app.post("/api/image", verifyJWT, upload.single("image"), (req, res) => {
   res.json({ image: req.file });
 });
